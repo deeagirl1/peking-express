@@ -7,7 +7,7 @@ class Vertex:
         self.critical = critical
         self.neighbours = {}
 
-    # add neighbour to the vertex and define the distance between them
+    # add neighbour to the vertex and define the price between them
     def add_neighbour(self, vertex, weight=0):
         self.neighbours[vertex] = weight
 
@@ -19,6 +19,5 @@ class Vertex:
     def weight(self, vertex):
         return self.neighbours[vertex]
 
-    # set the critical of the graph
     def set_critical(self, critical):
         self.critical = critical

@@ -2,9 +2,10 @@ import ast
 import json
 import unittest
 
-from peking import PekingExpress
+from PekingExpress import PekingExpress
 
 
+# Function used for interpreting the json
 def load_file(file):
     return PekingExpress(json.loads(file[0]))
 
@@ -13,7 +14,7 @@ class TestSortFunction(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
+        # Declaring file cases
         self.file1 = [
             '{"Locations": {"number": 4, "critical": [1]}, "Connections": {"source": [3, 3, 2, 3, 1], "target": [88, 2, 1, 1, 88], "price": [3, 4, 8, 3, 3]}, "StartLocation": 3, "Budget": 3, "OccupiedLocationsAfterEachTurn": [[88], [3, 1], [88, 2], [1], [3, 2], [3, 88], [3], [88], [3, 1], [1]]}']
 
@@ -38,6 +39,7 @@ class TestSortFunction(unittest.TestCase):
         self.file8 = [
             '{"Locations": {"number": 70, "critical": [11, 38, 35, 32, 24, 40, 53, 2, 22, 18]}, "Connections": {"source": [34, 14, 52, 38, 49, 24, 37, 4, 53, 20, 28, 6, 13, 16, 32, 39, 7, 30, 35, 19, 2, 64, 58, 10, 46, 25, 15, 51, 11, 17, 65, 29, 56, 3, 23, 21, 48, 27, 61, 43, 22, 9, 50, 55, 69, 26, 54, 60, 57, 47, 42, 67, 59, 5, 33, 18, 1, 41, 40, 68, 45, 36, 31, 8, 44, 12, 62, 63, 66, 40, 69, 41, 10, 8, 56, 47, 11, 62, 69, 44, 39, 60, 27, 49, 43, 45, 27, 29, 23, 56, 43, 63, 39, 58, 28, 30, 15, 54, 43, 7], "target": [14, 52, 38, 49, 24, 37, 4, 53, 20, 28, 6, 13, 16, 32, 39, 7, 30, 35, 19, 2, 64, 58, 10, 46, 25, 15, 51, 11, 17, 65, 29, 56, 3, 23, 21, 48, 27, 61, 43, 22, 9, 50, 55, 69, 26, 54, 60, 57, 47, 42, 67, 59, 5, 33, 18, 1, 41, 40, 68, 45, 36, 31, 8, 44, 12, 62, 63, 66, 88, 88, 54, 66, 26, 62, 54, 59, 40, 66, 66, 66, 8, 62, 36, 21, 55, 62, 1, 43, 61, 26, 60, 88, 50, 18, 31, 42, 31, 66, 63, 11], "price": [2, 3, 9, 5, 4, 2, 9, 4, 1, 3, 5, 9, 4, 9, 9, 6, 6, 6, 6, 1, 9, 3, 6, 4, 3, 4, 8, 5, 1, 8, 1, 8, 9, 7, 7, 7, 3, 1, 6, 7, 6, 6, 1, 4, 9, 4, 6, 4, 9, 2, 6, 8, 1, 4, 1, 5, 7, 7, 7, 4, 6, 1, 2, 4, 6, 4, 2, 5, 4, 7, 6, 7, 6, 3, 3, 4, 6, 8, 8, 7, 6, 1, 5, 9, 7, 6, 4, 1, 2, 7, 3, 1, 1, 2, 7, 5, 7, 9, 2, 1]}, "StartLocation": 34, "Budget": 150, "OccupiedLocationsAfterEachTurn": [[8], [62, 39, 44], [60], [54, 43, 57], [29, 22]]}']
 
+    # Test 1 Path
     def test_path_length_test_file1(self):
         peking1 = load_file(self.file1)
         peking1.solve()
@@ -45,21 +47,24 @@ class TestSortFunction(unittest.TestCase):
         length = peking1.get_path()
         self.assertEqual([3, 88], length)
 
+    # Test 2 Path
     def test_path_length_test_file2(self):
         peking2 = load_file(self.file2)
         peking2.solve()
 
         length = peking2.get_path()
-        self.assertEqual([9, 7, 1, 4, 5, 3, 88], length, "The length of the path should be 8.")
+        self.assertEqual([9, 7, 1, 4, 5, 3, 88], length)
 
+    # Test 3 Path
     def test_path_length_test_file3(self):
         peking3 = load_file(self.file3)
         peking3.solve()
 
         length = peking3.get_path()
 
-        self.assertEqual([5, 88], length, "The length of the path should be 2.")
+        self.assertEqual([5, 88], length)
 
+    # Test 4 Path
     def test_path_length_test_file4(self):
         peking4 = load_file(self.file4)
         peking4.solve()
@@ -67,6 +72,7 @@ class TestSortFunction(unittest.TestCase):
         length = peking4.get_path()
         self.assertIsNone(None, length)
 
+    # Test 5 Path
     def test_path_length_test_file5(self):
         peking5 = load_file(self.file5)
         peking5.solve()
@@ -75,6 +81,7 @@ class TestSortFunction(unittest.TestCase):
 
         self.assertEqual([2, 5, 3, 88], length)
 
+    # Test 6 Path
     def test_path_length_test_file6(self):
         peking6 = load_file(self.file6)
         peking6.solve()
@@ -83,6 +90,7 @@ class TestSortFunction(unittest.TestCase):
 
         self.assertEqual([15, 17, 3, 11, 12, 14, 88], length)
 
+    # Test 7 Path
     def test_path_length_test_file7(self):
         peking7 = load_file(self.file7)
         peking7.solve()
@@ -91,6 +99,7 @@ class TestSortFunction(unittest.TestCase):
 
         self.assertEqual([11, 2, 22, 88], length)
 
+    # Test 8 Path
     def test_path_length_test_file8(self):
         peking8 = load_file(self.file8)
         peking8.solve()
