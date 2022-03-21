@@ -1,3 +1,4 @@
+# a class to define the path of the player
 class Player:
     path = []
     spent = 0
