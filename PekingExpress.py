@@ -88,6 +88,7 @@ class PekingExpress:
         return sum([self.pekingMap.get_vertex(i).weight(i + 1) for i in range(len(self.get_path()))])
 
 
+# function to initialize the game
 def initializeGame(json_map, source):
     target = json_map['Connections']['target']
     price = json_map['Connections']['price']
