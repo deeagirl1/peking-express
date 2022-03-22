@@ -2,7 +2,6 @@ from Player import Player
 from Graph import Graph
 
 
-
 class PekingExpress:
     budget = 0
     occupiedLocations = []
@@ -36,7 +35,7 @@ class PekingExpress:
         if solution[1] is not None and solution[1][0] != solution[1][1]:
             self.player.spent += self.pekingMap.get_vertex(solution[1][0]).weight(solution[1][1])
 
-        # Return next point in shortest path to location.
+        # Return next point in the shortest path to location.
         if solution[1] is not None:
             return solution[1][1]
 
@@ -63,7 +62,8 @@ class PekingExpress:
             # If it's not occupied and vital continue path.
             for option in options:
                 if turn > len(self.occupiedLocations) or (
-                        not (self.pekingMap.get_vertex(option).critical and option in self.occupiedLocations[turn - 1])):
+                        not (self.pekingMap.get_vertex(option).critical and option in self.occupiedLocations[
+                            turn - 1])):
                     price = self.pekingMap.get_vertex(path[-1]).weight(option) if option != path[-1] else 0
                     solution = self.calculate_best_solution(solution, turn + 1, path + [option], spent + price)
         return solution
