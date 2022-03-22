@@ -41,7 +41,7 @@ class PekingExpress:
                     if option in self.occupiedLocations[turn - 1] and self.pekingMap.get_vertex(option).critical:
                         options = options + [path[-1]]
                         break
-            # If it's not occupied, then continue path.
+            # If it's not occupied, then resume finding the path.
             for option in options:
                 if turn > len(self.occupiedLocations) or (
                         not (self.pekingMap.get_vertex(option).critical and option in self.occupiedLocations[
@@ -53,7 +53,6 @@ class PekingExpress:
     # Compute player's next move
     def next_move(self):
 
-        # Calculate all paths to destination from current location.
         solution = self.find_sol((None, None), self.currentTurn, [self.player.path[-1]],
                                  self.player.spent)
 

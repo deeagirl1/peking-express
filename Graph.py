@@ -10,11 +10,9 @@ class Graph:
     # For each vertex, we need to add edges to the graph
     def add_edge(self, source, target, price):
 
-        # We add vertex u.
         if source not in self.vertices:
             self.vertices[source] = Vertex(source)
 
-        # We add vertex v.
         if target not in self.vertices:
             self.vertices[target] = Vertex(target)
 
@@ -32,15 +30,6 @@ class Graph:
 
     def get_neighbours(self):
         return list(self.get_vertices())
-
-    # If we have any vertices which are critical, then add them to the critical_vertices list.
-    def get_critical_vertices(self):
-        critical_vertices = []
-        for u in self.vertices:
-            if self.vertices[u].critical:
-                critical_vertices += [self.vertices[u]]
-
-        return critical_vertices
 
     # Keep updating the critical vertex
     def update_critical(self, vertex, critical=True):
