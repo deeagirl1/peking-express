@@ -7,7 +7,14 @@ from PekingExpress import PekingExpress
 
 # Function used for interpreting the json
 def load_file(file):
-    return PekingExpress(json.loads(file[0]))
+    file1 = readFile(file)
+    return PekingExpress(json.loads(file1[0]))
+
+
+def readFile(file_name):
+    with open(file_name, 'r') as file:
+        json_data = json.load(file[0])
+        return json_data
 
 
 class TestSortFunction(unittest.TestCase):
@@ -41,7 +48,7 @@ class TestSortFunction(unittest.TestCase):
 
     # Test 1 Path
     def test_path_length_test_file1(self):
-        peking1 = load_file(self.file1)
+        peking1 = load_file('./PE_tests_2/test1.txt')
         peking1.solve()
 
         length = peking1.get_path()
