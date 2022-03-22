@@ -1,4 +1,4 @@
-# a class to connect the vertices, define the distance
+# a class to connect the vertices, define the price
 # between two vertices and set the critical of the graph
 class Vertex:
 

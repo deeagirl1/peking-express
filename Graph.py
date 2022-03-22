@@ -8,19 +8,19 @@ class Graph:
         self.num_vertices = 0
 
     # For each vertex, we need to add edges to the graph
-    def add_edge(self, vertex1, vertex2, weight):
+    def add_edge(self, source, target, price):
 
         # We add vertex u.
-        if vertex1 not in self.vertices:
-            self.vertices[vertex1] = Vertex(vertex1)
+        if source not in self.vertices:
+            self.vertices[source] = Vertex(source)
 
         # We add vertex v.
-        if vertex2 not in self.vertices:
-            self.vertices[vertex2] = Vertex(vertex2)
+        if target not in self.vertices:
+            self.vertices[target] = Vertex(target)
 
         # We add the neighbours for u and v
-        self.vertices[vertex1].add_neighbour(vertex2, weight)
-        self.vertices[vertex2].add_neighbour(vertex1, weight)
+        self.vertices[source].add_neighbour(target, price)
+        self.vertices[target].add_neighbour(source, price)
 
         self.num_vertices += 2
 

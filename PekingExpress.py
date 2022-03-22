@@ -24,54 +24,55 @@ class PekingExpress:
         else:
             self.occupiedLocations += [[self.player.path[-1]]]
 
-    # Compute player's next move
-    def next_move(self):
+    def find_sol(self, solution, turn, path, spent) -> tuple:
 
-        # Calculate all paths to destination from current location.
-        solution = self.calculate_best_solution((None, None), self.currentTurn, [self.player.path[-1]],
-                                                self.player.spent)
-
-        # Price for each vertex is added to "spent"
-        if solution[1] is not None and solution[1][0] != solution[1][1]:
-            self.player.spent += self.pekingMap.get_vertex(solution[1][0]).weight(solution[1][1])
-
-        # Return next point in the shortest path to location.
-        if solution[1] is not None:
-            return solution[1][1]
-
-        return None
-
-    def calculate_best_solution(self, solution, turn, path, spent) -> tuple:
-
-        # If destination reached, add path and amount spent to solutions.
+        # If destination is reached, add path and amount spent to the solution.
         if path[-1] == 88 and spent <= self.budget:
-            # Check if the solution is better, if yes, then update the solution.
+            # Check if there is a better solution, if yes, then update the solution.
             if solution[1] is None or len(path) < len(solution[1]) or (
                     len(solution[1]) == len(path) and solution[0] > spent):
                 solution = (spent, path)
-        # Else "spent" is below the budget.
         elif spent < self.budget and (solution[1] is None or len(path) < len(solution[1])):
             # Get neighbours of the vertex.
             options = self.pekingMap.get_vertex(path[-1]).get_neighbours()
-            # Player can stay on the same location if any of the next options are occupied and vital.
+            # Player can stay on the same location if any of the following options are occupied.
             if turn <= len(self.occupiedLocations):
                 for option in options:
                     if option in self.occupiedLocations[turn - 1] and self.pekingMap.get_vertex(option).critical:
                         options = options + [path[-1]]
                         break
-            # If it's not occupied and vital continue path.
+            # If it's not occupied, then continue path.
             for option in options:
                 if turn > len(self.occupiedLocations) or (
                         not (self.pekingMap.get_vertex(option).critical and option in self.occupiedLocations[
                             turn - 1])):
                     price = self.pekingMap.get_vertex(path[-1]).weight(option) if option != path[-1] else 0
-                    solution = self.calculate_best_solution(solution, turn + 1, path + [option], spent + price)
+                    solution = self.find_sol(solution, turn + 1, path + [option], spent + price)
         return solution
 
-    #  While trying to reach 88, we calculate a next move.
+    # Compute player's next move
+    def next_move(self):
+
+        # Calculate all paths to destination from current location.
+        solution = self.find_sol((None, None), self.currentTurn, [self.player.path[-1]],
+                                 self.player.spent)
+
+        # Price for each vertex is added to "spent"
+        if solution[1] is not None and solution[1][0] != solution[1][1]:
+            self.player.spent += self.pekingMap.get_vertex(solution[1][0]).weight(solution[1][1])
+
+        # Return next point in the shortest path .
+        if solution[1] is not None:
+            return solution[1][1]
+
+        return None
+
+    # function used to find player's path from start location to destionation
     def solve(self):
+        # If the start_locations is not in the source, then we return none
         if self.startLocation not in self.source:
             return None
+        # While trying to reach 88, we try calculating the next move.
         while self.player.path[-1] != 88:
             n = self.next_move()
             if n is None:
@@ -81,14 +82,12 @@ class PekingExpress:
             self.update_occupied_locations()
             self.currentTurn += 1
 
+    # Get player's full path
     def get_path(self):
         return self.player.path
 
-    def get_path_weight(self):
-        return sum([self.pekingMap.get_vertex(i).weight(i + 1) for i in range(len(self.get_path()))])
 
-
-# function to initialize the game
+# Function to initialize the game
 def initializeGame(json_map, source):
     target = json_map['Connections']['target']
     price = json_map['Connections']['price']
