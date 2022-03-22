@@ -5,7 +5,6 @@ class Graph:
 
     def __init__(self):
         self.vertices = {}
-        self.num_vertices = 0
 
     # For each vertex, we need to add edges to the graph
     def add_edge(self, source, target, price):
@@ -19,8 +18,6 @@ class Graph:
         # We add the neighbours for u and v
         self.vertices[source].add_neighbour(target, price)
         self.vertices[target].add_neighbour(source, price)
-
-        self.num_vertices += 2
 
     def get_vertices(self):
         return self.vertices
