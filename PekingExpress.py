@@ -52,7 +52,7 @@ class PekingExpress:
                 solution = (spent, path)
         # Else "spent" is below the budget.
         elif spent < self.budget and (solution[1] is None or len(path) < len(solution[1])):
-            # Get adjacent vertices.
+            # Get neighbours of the vertex.
             options = self.pekingMap.get_vertex(path[-1]).get_neighbours()
             # Player can stay on the same location if any of the next options are occupied and vital.
             if turn <= len(self.occupiedLocations):
