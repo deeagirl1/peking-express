@@ -5,7 +5,6 @@ class Graph:
 
     def __init__(self):
         self.vertices = {}
-        self.num_vertices = 0
 
     # function to add the vertex to the graph
     def add_vertex(self, node):
