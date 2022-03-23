@@ -7,20 +7,23 @@ class Graph:
         self.vertices = {}
         self.num_vertices = 0
 
+    # function to add the vertex to the graph
+    def add_vertex(self, node):
+        self.num_vertices += 1
+        self.vertices[node] = Vertex(node)
+
     # For each vertex, we need to add edges to the graph
     def add_edge(self, source, target, price):
 
         if source not in self.vertices:
-            self.vertices[source] = Vertex(source)
+            self.add_vertex(source)
 
         if target not in self.vertices:
-            self.vertices[target] = Vertex(target)
+            self.add_vertex(target)
 
         # We add the neighbours for u and v
         self.vertices[source].add_neighbour(target, price)
         self.vertices[target].add_neighbour(source, price)
-
-        self.num_vertices += 2
 
     def get_vertices(self):
         return self.vertices

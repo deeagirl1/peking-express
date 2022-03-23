@@ -24,7 +24,7 @@ class PekingExpress:
         else:
             self.occupiedLocations += [[self.player.path[-1]]]
 
-    def find_sol(self, solution, turn, path, spent) -> tuple:
+    def find_sol(self, solution, turn, path, spent):
 
         # If destination is reached, add path and amount spent to the solution.
         if path[-1] == 88 and spent <= self.budget:
@@ -32,6 +32,7 @@ class PekingExpress:
             if solution[1] is None or len(path) < len(solution[1]) or (
                     len(solution[1]) == len(path) and solution[0] > spent):
                 solution = (spent, path)
+
         elif spent < self.budget and (solution[1] is None or len(path) < len(solution[1])):
             # Get neighbours of the vertex.
             options = self.pekingMap.get_vertex(path[-1]).get_neighbours()
@@ -41,6 +42,7 @@ class PekingExpress:
                     if option in self.occupiedLocations[turn - 1] and self.pekingMap.get_vertex(option).critical:
                         options = options + [path[-1]]
                         break
+
             # If it's not occupied, then resume finding the path.
             for option in options:
                 if turn > len(self.occupiedLocations) or (
@@ -48,6 +50,7 @@ class PekingExpress:
                             turn - 1])):
                     price = self.pekingMap.get_vertex(path[-1]).weight(option) if option != path[-1] else 0
                     solution = self.find_sol(solution, turn + 1, path + [option], spent + price)
+
         return solution
 
     # Compute player's next move
@@ -66,7 +69,7 @@ class PekingExpress:
 
         return None
 
-    # function used to find player's path from start location to destionation
+    # function used to find player's path from start location to destination
     def solve(self):
         # If the start_locations is not in the source, then we return none
         if self.startLocation not in self.source:
@@ -75,7 +78,7 @@ class PekingExpress:
         while self.player.path[-1] != 88:
             n = self.next_move()
             if n is None:
-                self.player.path += ['Could not find full path.']
+                self.player.path += ['No path to the target!']
                 break
             self.player.path += [n]
             self.update_occupied_locations()
@@ -91,15 +94,14 @@ def initializeGame(json_map, source):
     target = json_map['Connections']['target']
     price = json_map['Connections']['price']
     critical = json_map['Locations']['critical']
-    n = len(source)
 
-    peking_map = Graph()
+    pekingGraph = Graph()
 
     # Fill in the graph with values.
-    for i in range(n):
-        peking_map.add_edge(source[i], target[i], price[i])
+    for i in range(len(source)):
+        pekingGraph.add_edge(source[i], target[i], price[i])
 
     for i in critical:
-        peking_map.update_critical(i)
+        pekingGraph.update_critical(i)
 
-    return peking_map
+    return pekingGraph
